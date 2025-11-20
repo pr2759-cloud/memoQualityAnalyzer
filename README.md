@@ -8,6 +8,11 @@
 
 ---
 
+<img width="2932" height="1658" alt="image" src="https://github.com/user-attachments/assets/f18b1729-fe63-4fcc-bf9c-7925f82e33af" />
+<img width="2932" height="1658" alt="image" src="https://github.com/user-attachments/assets/8b005bb4-f7b1-4350-997c-b9a25e48454f" />
+<img width="2932" height="1658" alt="image" src="https://github.com/user-attachments/assets/b49aad38-820b-42ac-aa07-36b8bc69230f" />
+
+
 ## 🎯 What This Does
 
 This system creates a **complete feedback loop** for generating high-quality VC deal memos:

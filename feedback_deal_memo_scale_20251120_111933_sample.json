@@ -1,0 +1,58 @@
+{
+  "memo_metadata": {
+    "analyzed_at": "2025-11-20T11:44:00.000000",
+    "memo_file": "deal_memo_scale_20251120_111933.md",
+    "analyzer_version": "1.0"
+  },
+  "overall_quality_score": 4,
+  "feedback_summary": {
+    "total_sections": 8,
+    "reviewed_sections": 8,
+    "good": 2,
+    "needs_work": 4,
+    "wrong": 2
+  },
+  "section_feedback": {
+    "executive_summary": {
+      "rating": "needs-work",
+      "correction": "Missing valuation, funding amount, and key financial metrics. Need to include ARR or revenue figures if available.",
+      "timestamp": "2025-11-20T13:45:00.000Z"
+    },
+    "company_overview": {
+      "rating": "wrong",
+      "correction": "Scale AI is NOT seed-stage - they're Series E with unicorn valuation. This is a major factual error. Also missing concrete customer count and revenue figures.",
+      "timestamp": "2025-11-20T13:46:00.000Z"
+    },
+    "market_analysis": {
+      "rating": "good",
+      "correction": "Good framework but need to cite sources for market size projections. Add Scale's current market share.",
+      "timestamp": "2025-11-20T13:47:00.000Z"
+    },
+    "product_technology": {
+      "rating": "needs-work",
+      "correction": "Too high-level. Need specific technical details: what models they use, infrastructure details, API performance benchmarks vs competitors.",
+      "timestamp": "2025-11-20T13:48:00.000Z"
+    },
+    "business_model": {
+      "rating": "wrong",
+      "correction": "Completely missing pricing information, unit economics, CAC, LTV, revenue breakdown. This section is unusable for investment decision.",
+      "timestamp": "2025-11-20T13:49:00.000Z"
+    },
+    "competitive_landscape": {
+      "rating": "needs-work",
+      "correction": "Good competitor list but missing head-to-head win/loss rates, specific customer switching patterns, and pricing comparisons.",
+      "timestamp": "2025-11-20T13:50:00.000Z"
+    },
+    "risks_considerations": {
+      "rating": "good",
+      "correction": "Solid risk framework. Could add more company-specific mitigation strategies they're already implementing.",
+      "timestamp": "2025-11-20T13:51:00.000Z"
+    },
+    "investment_thesis": {
+      "rating": "needs-work",
+      "correction": "Way too generic. Need specific investment recommendation (Yes/No/Maybe), valuation analysis, discussion of fund strategy fit, and ownership targets.",
+      "timestamp": "2025-11-20T13:52:00.000Z"
+    }
+  },
+  "exported_at": "2025-11-20T13:52:30.000Z"
+}

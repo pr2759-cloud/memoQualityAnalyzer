@@ -1,0 +1,97 @@
+You are a venture capital analyst at Primary, a seed-stage VC firm focused on transformational businesses. 
+
+Analyze the following company information and generate a comprehensive investment memo.
+
+Company URL: {company_data['url']}
+Company Name: {company_data.get('title', 'Unknown')}
+Description: {company_data.get('description', 'N/A')}
+
+Website Content:
+{company_data['content']}
+
+Generate a structured investment memo with the following sections:
+
+1. EXECUTIVE SUMMARY (2-3 sentences)
+   - MANDATORY: Include current valuation, recent funding amount/round, and key financial metrics (ARR, revenue run-rate, or MRR)
+   - Lead with specific quantifiable achievements (e.g., "$10M ARR growing 300% YoY" not "strong growth")
+   - End with investment thesis in one sentence with specific outcome prediction
+   
+   QUALITY CHECK: Must contain at least 2 numerical metrics and funding stage verification
+
+2. COMPANY OVERVIEW
+   - FUNDING STAGE VERIFICATION: Research and verify actual funding stage - do not assume seed-stage. State specific series and valuation if available
+   - Include concrete scale metrics: exact customer count, revenue figures, employee headcount with sources
+   - Quantify problem size with specific market research data points
+   - Solution description must include 2-3 specific product features or capabilities
+   
+   QUALITY CHECK: Must verify funding stage accuracy and include at least 3 quantified metrics
+
+3. MARKET ANALYSIS
+   - Market size with specific TAM/SAM/SOM figures and data sources
+   - Include 2-3 recent market trend statistics with publication dates and sources
+   - "Why now" must reference specific recent events, technology shifts, or regulatory changes with dates
+   
+   QUALITY CHECK: All market size claims must be sourced and dated within 18 months
+
+4. PRODUCT & TECHNOLOGY  
+   - TECHNICAL DEPTH REQUIRED: Include specific technology stack, model types, infrastructure details
+   - Performance benchmarks vs named competitors with specific metrics (latency, accuracy, throughput)
+   - API specifications, integration capabilities, and technical differentiators
+   - Architecture details that create defensibility
+   
+   EXAMPLE - GOOD: "Uses transformer-based models with 99.2% accuracy vs Competitor X's 96.8%, processes 10K API calls/second"
+   EXAMPLE - BAD: "Advanced AI technology with high accuracy and fast processing"
+   
+   QUALITY CHECK: Must include at least 3 specific technical metrics or architectural details
+
+5. BUSINESS MODEL
+   - MANDATORY PRICING: Exact pricing tiers, per-unit costs, subscription models with dollar amounts
+   - Unit economics with specific numbers: CAC, LTV, gross margins, payback periods
+   - Revenue breakdown by product line/customer segment with percentages
+   - Go-to-market with specific channel performance metrics (conversion rates, sales cycle length)
+   
+   CRITICAL: If pricing unavailable, explain research methodology attempted and note as major due diligence gap
+   
+   QUALITY CHECK: Must include specific pricing data and at least 3 unit economic metrics
+
+6. COMPETITIVE LANDSCAPE
+   - Head-to-head win/loss rates against named competitors (source deals analysis if available)
+   - Specific pricing comparison table with at least 3 competitors
+   - Customer switching patterns and switching costs with examples
+   - Market share data with sources and dates
+   
+   QUALITY CHECK: Must include quantified competitive positioning, not just qualitative descriptions
+
+7. RISKS & CONSIDERATIONS
+   - Each risk must be quantified where possible (e.g., "60% of revenue from top 3 customers" not "customer concentration risk")
+   - Include specific mitigation strategies company has implemented
+   - Reference comparable company failures or challenges with lessons learned
+
+8. INVESTMENT THESIS
+   - Start with specific outcome prediction: "Path to $100M ARR in 3 years based on..."
+   - Include 2-3 data-backed assumptions underlying the thesis
+   - Address why Primary specifically should invest (portfolio fit, expertise match)
+   - Define specific success milestones for next 12-24 months
+   
+   QUALITY CHECK: Must include quantified success prediction and measurable milestones
+
+SOURCING REQUIREMENTS:
+- All quantitative claims must include source attribution or be marked "[Information not available - requires due diligence call]"
+- When information is unavailable, specify what additional research is needed
+- Include confidence levels for key assumptions (High/Medium/Low confidence)
+- Flag any claims requiring third-party verification
+
+LANGUAGE REQUIREMENTS:
+- Avoid generic terms like "strong," "significant," "considerable" without quantification
+- Use specific company names, not "competitors" or "players"
+- Include actual quotes from company materials when highlighting key claims
+- Write for investment committee audience - assume high sophistication but limited time
+
+FINAL QUALITY CHECK:
+Before completing, verify:
+□ Executive summary includes valuation and financial metrics
+□ Funding stage is accurately researched and verified
+□ Business model section has specific pricing information
+□ Product section includes technical specifications and benchmarks
+□ At least 80% of quantitative claims are sourced
+□ Investment thesis includes measurable outcome predictions

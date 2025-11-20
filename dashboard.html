@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal Memo Quality Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .stat-card .label {
+            font-size: 0.9em;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .stat-card .trend {
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .trend.up {
+            color: #10b981;
+        }
+
+        .trend.down {
+            color: #ef4444;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-card h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .issues-list {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .issues-list h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .issue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-left: 4px solid #ef4444;
+            background: #fef2f2;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            transition: transform 0.2s;
+        }
+
+        .issue-item:hover {
+            transform: translateX(5px);
+        }
+
+        .issue-item .issue-name {
+            font-weight: 600;
+            color: #991b1b;
+        }
+
+        .issue-item .issue-count {
+            background: #ef4444;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .file-loader {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .file-loader input {
+            display: none;
+        }
+
+        .file-loader button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-loader button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .improvement-timeline {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .improvement-timeline h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            padding-bottom: 30px;
+            border-left: 3px solid #e5e7eb;
+        }
+
+        .timeline-item:last-child {
+            border-left-color: transparent;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline-item .date {
+            font-size: 0.85em;
+            color: #9ca3af;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item .event {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item .description {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Deal Memo Quality Dashboard</h1>
+            <p>Comprehensive analytics for AI-generated investment memos</p>
+        </div>
+
+        <div class="file-loader">
+            <h3 style="margin-bottom: 15px;">Load Feedback & Quality Data</h3>
+            <p style="color: #6b7280; margin-bottom: 20px;">Select multiple feedback JSON files to analyze trends</p>
+            <button onclick="document.getElementById('fileInput').click()">
+                📂 Load Feedback Files
+            </button>
+            <input type="file" id="fileInput" accept=".json" multiple onchange="loadFiles(event)">
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">📝</div>
+                <div class="label">Total Memos Analyzed</div>
+                <div class="value" id="totalMemos">0</div>
+                <div class="trend up" id="memoTrend"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">⭐</div>
+                <div class="label">Average Quality Score</div>
+                <div class="value" id="avgScore">0.0</div>
+                <div class="trend" id="scoreTrend"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">✅</div>
+                <div class="label">Sections Rated Good</div>
+                <div class="value" id="goodSections">0%</div>
+                <div class="trend up" id="goodTrend"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">🎯</div>
+                <div class="label">Improvement Rate</div>
+                <div class="value" id="improvementRate">+0%</div>
+                <div class="trend up" id="improveTrend"></div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>Quality Score Trend</h2>
+                <div class="chart-container">
+                    <canvas id="qualityTrendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h2>Section Ratings Distribution</h2>
+                <div class="chart-container">
+                    <canvas id="ratingsDistChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>Section Performance</h2>
+                <div class="chart-container">
+                    <canvas id="sectionPerfChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h2>Partner Satisfaction Trend</h2>
+                <div class="chart-container">
+                    <canvas id="satisfactionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="issues-list">
+            <h2>🔴 Most Common Issues</h2>
+            <div id="issuesList">
+                <p style="color: #9ca3af; text-align: center; padding: 40px;">Load feedback data to see common issues</p>
+            </div>
+        </div>
+
+        <div class="improvement-timeline">
+            <h2>📈 Improvement Timeline</h2>
+            <div id="timeline">
+                <p style="color: #9ca3af; text-align: center; padding: 40px;">Load feedback data to see improvement history</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let feedbackData = [];
+        let charts = {};
+
+        function loadFiles(event) {
+            const files = Array.from(event.target.files);
+            feedbackData = [];
+
+            let filesProcessed = 0;
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        feedbackData.push(data);
+                        filesProcessed++;
+
+                        if (filesProcessed === files.length) {
+                            processData();
+                        }
+                    } catch (error) {
+                        console.error('Error loading file:', error);
+                        filesProcessed++;
+                    }
+                };
+                reader.readAsText(file);
+            });
+        }
+
+        function processData() {
+            if (feedbackData.length === 0) return;
+
+            // Sort by date
+            feedbackData.sort((a, b) => {
+                const dateA = new Date(a.exported_at || a.memo_metadata?.analyzed_at);
+                const dateB = new Date(b.exported_at || b.memo_metadata?.analyzed_at);
+                return dateA - dateB;
+            });
+
+            updateStatCards();
+            createCharts();
+            updateIssuesList();
+            updateTimeline();
+        }
+
+        function updateStatCards() {
+            const totalMemos = feedbackData.length;
+            const scores = feedbackData.map(d => d.overall_quality_score).filter(s => s);
+            const avgScore = scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1) : 0;
+
+            let totalGood = 0, totalSections = 0;
+            feedbackData.forEach(data => {
+                const summary = data.feedback_summary || {};
+                totalGood += summary.good || 0;
+                totalSections += summary.total_sections || 0;
+            });
+
+            const goodPercentage = totalSections > 0 ? ((totalGood / totalSections) * 100).toFixed(0) : 0;
+
+            // Calculate improvement rate (last 3 vs first 3)
+            let improvementRate = 0;
+            if (scores.length >= 3) {
+                const firstThree = scores.slice(0, 3).reduce((a, b) => a + b, 0) / 3;
+                const lastThree = scores.slice(-3).reduce((a, b) => a + b, 0) / 3;
+                improvementRate = ((lastThree - firstThree) / firstThree * 100).toFixed(0);
+            }
+
+            document.getElementById('totalMemos').textContent = totalMemos;
+            document.getElementById('avgScore').textContent = avgScore;
+            document.getElementById('goodSections').textContent = goodPercentage + '%';
+            document.getElementById('improvementRate').textContent = (improvementRate > 0 ? '+' : '') + improvementRate + '%';
+
+            // Update trends
+            if (scores.length >= 2) {
+                const trend = scores[scores.length - 1] - scores[scores.length - 2];
+                const scoreTrend = document.getElementById('scoreTrend');
+                scoreTrend.textContent = (trend > 0 ? '↑' : '↓') + ' ' + Math.abs(trend).toFixed(1) + ' from last memo';
+                scoreTrend.className = 'trend ' + (trend > 0 ? 'up' : 'down');
+            }
+
+            const improveTrend = document.getElementById('improveTrend');
+            improveTrend.textContent = 'Since first memos';
+            improveTrend.className = 'trend ' + (improvementRate > 0 ? 'up' : 'down');
+        }
+
+        function createCharts() {
+            // Destroy existing charts
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            // Quality Trend Chart
+            const scores = feedbackData.map(d => d.overall_quality_score);
+            const labels = feedbackData.map((d, i) => `Memo ${i + 1}`);
+
+            const ctx1 = document.getElementById('qualityTrendChart');
+            charts.qualityTrend = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Quality Score',
+                        data: scores,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Ratings Distribution
+            let totalGood = 0, totalNeedsWork = 0, totalWrong = 0;
+            feedbackData.forEach(data => {
+                const summary = data.feedback_summary || {};
+                totalGood += summary.good || 0;
+                totalNeedsWork += summary.needs_work || 0;
+                totalWrong += summary.wrong || 0;
+            });
+
+            const ctx2 = document.getElementById('ratingsDistChart');
+            charts.ratingsDist = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['✅ Good', '⚠️ Needs Work', '❌ Wrong'],
+                    datasets: [{
+                        data: [totalGood, totalNeedsWork, totalWrong],
+                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Section Performance
+            const sectionStats = {};
+            feedbackData.forEach(data => {
+                const feedback = data.section_feedback || {};
+                Object.entries(feedback).forEach(([section, info]) => {
+                    if (!sectionStats[section]) {
+                        sectionStats[section] = { good: 0, needsWork: 0, wrong: 0 };
+                    }
+                    const rating = info.rating?.replace('-', '_');
+                    if (rating === 'good') sectionStats[section].good++;
+                    else if (rating === 'needs_work') sectionStats[section].needsWork++;
+                    else if (rating === 'wrong') sectionStats[section].wrong++;
+                });
+            });
+
+            const sectionNames = Object.keys(sectionStats).map(s =>
+                s.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+            );
+
+            const ctx3 = document.getElementById('sectionPerfChart');
+            charts.sectionPerf = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: sectionNames,
+                    datasets: [
+                        {
+                            label: 'Good',
+                            data: Object.values(sectionStats).map(s => s.good),
+                            backgroundColor: '#10b981'
+                        },
+                        {
+                            label: 'Needs Work',
+                            data: Object.values(sectionStats).map(s => s.needsWork),
+                            backgroundColor: '#f59e0b'
+                        },
+                        {
+                            label: 'Wrong',
+                            data: Object.values(sectionStats).map(s => s.wrong),
+                            backgroundColor: '#ef4444'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true
+                        }
+                    }
+                }
+            });
+
+            // Partner Satisfaction (simulated based on quality scores)
+            const satisfactionScores = scores.map(s => ((s / 10) * 100).toFixed(0));
+
+            const ctx4 = document.getElementById('satisfactionChart');
+            charts.satisfaction = new Chart(ctx4, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Satisfaction %',
+                        data: satisfactionScores,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateIssuesList() {
+            const issueCount = {};
+
+            feedbackData.forEach(data => {
+                const feedback = data.section_feedback || {};
+                Object.entries(feedback).forEach(([section, info]) => {
+                    if (info.rating === 'needs-work' || info.rating === 'wrong') {
+                        const sectionName = section.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        issueCount[sectionName] = (issueCount[sectionName] || 0) + 1;
+                    }
+                });
+            });
+
+            const sortedIssues = Object.entries(issueCount).sort((a, b) => b[1] - a[1]);
+
+            const issuesList = document.getElementById('issuesList');
+            issuesList.innerHTML = '';
+
+            sortedIssues.slice(0, 10).forEach(([issue, count]) => {
+                const div = document.createElement('div');
+                div.className = 'issue-item';
+                div.innerHTML = `
+                    <span class="issue-name">${issue}</span>
+                    <span class="issue-count">${count} times</span>
+                `;
+                issuesList.appendChild(div);
+            });
+        }
+
+        function updateTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            feedbackData.forEach((data, index) => {
+                const date = new Date(data.exported_at || data.memo_metadata?.analyzed_at);
+                const score = data.overall_quality_score;
+                const summary = data.feedback_summary || {};
+
+                const div = document.createElement('div');
+                div.className = 'timeline-item';
+                div.innerHTML = `
+                    <div class="date">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                    <div class="event">Memo #${index + 1} Reviewed - Score: ${score}/10</div>
+                    <div class="description">
+                        ${summary.good || 0} sections rated good,
+                        ${summary.needs_work || 0} need work,
+                        ${summary.wrong || 0} wrong
+                    </div>
+                `;
+                timeline.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>

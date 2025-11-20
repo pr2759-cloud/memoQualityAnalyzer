@@ -1,0 +1,55 @@
+================================================================================
+FEEDBACK PATTERN ANALYSIS
+================================================================================
+
+📊 Total Memos Reviewed: 2
+📈 Average Quality Score: 4.5/10
+
+--------------------------------------------------------------------------------
+🔴 PROBLEMATIC SECTIONS (Most Common Issues)
+--------------------------------------------------------------------------------
+
+1. Executive Summary
+   Problem Rate: 100.0% (2 needs work, 0 wrong out of 2 reviews)
+
+2. Product Technology
+   Problem Rate: 100.0% (2 needs work, 0 wrong out of 2 reviews)
+
+3. Business Model
+   Problem Rate: 100.0% (0 needs work, 2 wrong out of 2 reviews)
+
+4. Investment Thesis
+   Problem Rate: 100.0% (1 needs work, 1 wrong out of 2 reviews)
+
+5. Company Overview
+   Problem Rate: 50.0% (0 needs work, 1 wrong out of 2 reviews)
+
+--------------------------------------------------------------------------------
+SECTION RATINGS BREAKDOWN
+--------------------------------------------------------------------------------
+
+Business Model:
+  ✅ Good: 0%  |  ⚠️ Needs Work: 0%  |  ❌ Wrong: 100%
+
+Company Overview:
+  ✅ Good: 50%  |  ⚠️ Needs Work: 0%  |  ❌ Wrong: 50%
+
+Competitive Landscape:
+  ✅ Good: 50%  |  ⚠️ Needs Work: 50%  |  ❌ Wrong: 0%
+
+Executive Summary:
+  ✅ Good: 0%  |  ⚠️ Needs Work: 100%  |  ❌ Wrong: 0%
+
+Investment Thesis:
+  ✅ Good: 0%  |  ⚠️ Needs Work: 50%  |  ❌ Wrong: 50%
+
+Market Analysis:
+  ✅ Good: 100%  |  ⚠️ Needs Work: 0%  |  ❌ Wrong: 0%
+
+Product Technology:
+  ✅ Good: 0%  |  ⚠️ Needs Work: 100%  |  ❌ Wrong: 0%
+
+Risks Considerations:
+  ✅ Good: 50%  |  ⚠️ Needs Work: 50%  |  ❌ Wrong: 0%
+
+================================================================================

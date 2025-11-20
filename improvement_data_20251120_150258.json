@@ -1,0 +1,112 @@
+{
+  "timestamp": "20251120_150258",
+  "analysis": {
+    "total_memos": 2,
+    "avg_quality_score": 4.5,
+    "problematic_sections": [
+      {
+        "section": "executive_summary",
+        "problem_rate": 1.0,
+        "needs_work": 2,
+        "wrong": 0,
+        "total": 2
+      },
+      {
+        "section": "product_technology",
+        "problem_rate": 1.0,
+        "needs_work": 2,
+        "wrong": 0,
+        "total": 2
+      },
+      {
+        "section": "business_model",
+        "problem_rate": 1.0,
+        "needs_work": 0,
+        "wrong": 2,
+        "total": 2
+      },
+      {
+        "section": "investment_thesis",
+        "problem_rate": 1.0,
+        "needs_work": 1,
+        "wrong": 1,
+        "total": 2
+      },
+      {
+        "section": "company_overview",
+        "problem_rate": 0.5,
+        "needs_work": 0,
+        "wrong": 1,
+        "total": 2
+      },
+      {
+        "section": "competitive_landscape",
+        "problem_rate": 0.5,
+        "needs_work": 1,
+        "wrong": 0,
+        "total": 2
+      },
+      {
+        "section": "risks_considerations",
+        "problem_rate": 0.5,
+        "needs_work": 1,
+        "wrong": 0,
+        "total": 2
+      }
+    ],
+    "section_ratings": {
+      "executive_summary": {
+        "good": 0,
+        "needs_work": 2,
+        "wrong": 0,
+        "total": 2
+      },
+      "company_overview": {
+        "good": 1,
+        "needs_work": 0,
+        "wrong": 1,
+        "total": 2
+      },
+      "market_analysis": {
+        "good": 2,
+        "needs_work": 0,
+        "wrong": 0,
+        "total": 2
+      },
+      "product_technology": {
+        "good": 0,
+        "needs_work": 2,
+        "wrong": 0,
+        "total": 2
+      },
+      "business_model": {
+        "good": 0,
+        "needs_work": 0,
+        "wrong": 2,
+        "total": 2
+      },
+      "competitive_landscape": {
+        "good": 1,
+        "needs_work": 1,
+        "wrong": 0,
+        "total": 2
+      },
+      "risks_considerations": {
+        "good": 1,
+        "needs_work": 1,
+        "wrong": 0,
+        "total": 2
+      },
+      "investment_thesis": {
+        "good": 0,
+        "needs_work": 1,
+        "wrong": 1,
+        "total": 2
+      }
+    }
+  },
+  "original_prompt": "You are a venture capital analyst at Primary, a seed-stage VC firm focused on transformational businesses. \n\nAnalyze the following company information and generate a comprehensive investment memo.\n\nCompany URL: {company_data['url']}\nCompany Name: {company_data.get('title', 'Unknown')}\nDescription: {company_data.get('description', 'N/A')}\n\nWebsite Content:\n{company_data['content']}\n\nGenerate a structured investment memo with the following sections:\n\n1. EXECUTIVE SUMMARY (2-3 sentences)\n   - Quick snapshot of what the company does and why it matters\n\n2. COMPANY OVERVIEW\n   - What problem are they solving?\n   - What is their solution?\n   - Current stage and traction (if mentioned)\n\n3. MARKET ANALYSIS\n   - Market size and opportunity\n   - Market trends and dynamics\n   - Why now?\n\n4. PRODUCT & TECHNOLOGY\n   - Core product/service\n   - Key differentiators\n   - Technical moat (if any)\n\n5. BUSINESS MODEL\n   - How they make money\n   - Unit economics (if available)\n   - Go-to-market strategy\n\n6. COMPETITIVE LANDSCAPE\n   - Key competitors\n   - Competitive advantages\n   - Market positioning\n\n7. RISKS & CONSIDERATIONS\n   - Market risks\n   - Execution risks\n   - Competition risks\n\n8. INVESTMENT THESIS\n   - Why this could be a transformational business\n   - Alignment with Primary's thesis\n   - Key success factors\n\nBe analytical, balanced, and specific. Use bullet points within sections for clarity. If information is not available from the website, note it as \"[Information not available from public sources]\".",
+  "improved_prompt": "You are a venture capital analyst at Primary, a seed-stage VC firm focused on transformational businesses. \n\nAnalyze the following company information and generate a comprehensive investment memo with rigorous data backing and specific insights.\n\nCompany URL: {company_data['url']}\nCompany Name: {company_data.get('title', 'Unknown')}\nDescription: {company_data.get('description', 'N/A')}\n\nWebsite Content:\n{company_data['content']}\n\nGenerate a structured investment memo with the following sections:\n\n1. EXECUTIVE SUMMARY (2-3 sentences)\n   - MUST INCLUDE: Current valuation (if available), latest funding amount and stage, specific revenue/ARR figures\n   - MUST INCLUDE: Quantified traction metrics (customer count, growth rate, market share)\n   - Avoid generic descriptions - use specific numbers and concrete achievements\n   - Quality check: Does this summary contain at least 3 quantifiable metrics?\n\n2. COMPANY OVERVIEW\n   - VERIFY FUNDING STAGE: Cross-reference funding stage claims with available data - do not assume seed-stage\n   - What problem are they solving? (Include market size affected by this problem)\n   - What is their solution? (Include specific customer count and revenue figures if available)\n   - Current stage and traction: Provide exact funding round, date, amount, and lead investor if available\n   - Quality check: Include at least 2 sourced financial or customer metrics\n\n3. MARKET ANALYSIS\n   - Market size: Provide TAM, SAM, SOM with sources\n   - Market trends: Include growth rates and trend data with citations\n   - Why now? Reference specific market catalysts or timing factors\n   - Quality check: All market size claims must be sourced\n\n4. PRODUCT & TECHNOLOGY\n   - Core product/service: Include specific technical architecture details, not high-level descriptions\n   - MUST INCLUDE: Performance benchmarks, API specifications, infrastructure details where available\n   - MUST INCLUDE: Specific models used, technical differentiators vs named competitors\n   - Technical moat: Provide concrete examples of proprietary technology or data advantages\n   - BAD EXAMPLE: \"AI-powered platform that improves efficiency\"\n   - GOOD EXAMPLE: \"Proprietary transformer model achieving 95% accuracy vs industry standard 87%, processing 10K requests/second via REST API\"\n   - Quality check: Include at least 2 specific technical metrics or architecture details\n\n5. BUSINESS MODEL\n   - MANDATORY: Include specific pricing tiers, unit economics (CAC, LTV, gross margins)\n   - MANDATORY: Revenue breakdown by segment/product line if available\n   - How they make money: Exact pricing model with dollar amounts\n   - Go-to-market strategy: Include sales cycle length, average deal size, conversion rates\n   - If pricing unavailable, explicitly state \"Pricing not publicly available\" rather than omitting\n   - BAD EXAMPLE: \"Subscription-based model\"\n   - GOOD EXAMPLE: \"Tiered SaaS: Starter $99/month, Pro $499/month, Enterprise $2K+/month. CAC $1,200, LTV $15K (based on 18-month average retention)\"\n   - Quality check: Must include either specific pricing OR explicit statement that pricing is unavailable\n\n6. COMPETITIVE LANDSCAPE\n   - Key competitors: List 3-5 direct competitors with their market positioning\n   - MUST INCLUDE: Head-to-head win/loss rates, customer switching patterns, pricing comparisons where available\n   - MUST INCLUDE: Specific competitive advantages with supporting evidence\n   - Market positioning: Include market share data if available\n   - Quality check: Include at least one head-to-head comparison metric or concrete competitive advantage\n\n7. RISKS & CONSIDERATIONS\n   - Market risks: Cite specific market vulnerabilities with probability assessments where possible\n   - Execution risks: Reference team experience gaps or operational challenges\n   - Competition risks: Include emerging competitive threats and market consolidation risks\n\n8. INVESTMENT THESIS\n   - MUST BE SPECIFIC: Why this could be a transformational business (include addressable market size and growth trajectory)\n   - MUST VALIDATE: Alignment with Primary's seed-stage focus (verify company stage accuracy)\n   - Key success factors: Include measurable milestones and success metrics\n   - Quality check: Thesis must be supported by at least 3 quantified data points from previous sections\n\nCRITICAL REQUIREMENTS:\n- Source all quantitative claims where possible - if unsourced, state \"[Estimate based on available data]\"\n- Replace generic language with specific metrics, names, and numbers\n- If critical information is unavailable, explicitly state what's missing rather than providing generic content\n- Cross-reference company stage claims with funding data to avoid classification errors\n- Each section must contain actionable insights, not just descriptive content\n\nQUALITY CHECKPOINTS BEFORE SUBMISSION:\n\u25a1 Executive Summary contains financial metrics (valuation, funding, revenue)\n\u25a1 Business Model includes pricing or explicit unavailability statement  \n\u25a1 Product & Technology includes specific technical details, not high-level descriptions\n\u25a1 At least 5 quantitative data points sourced throughout memo\n\u25a1 Company stage accurately reflects actual funding history\n\u25a1 Investment thesis supported by concrete evidence from earlier sections\n\nBe analytical, balanced, and specific. Prioritize actionable insights over comprehensive coverage.",
+  "improvements_list": "1. **Added mandatory financial metrics requirements for Executive Summary** - Explicitly requires valuation, funding amounts, and revenue figures to prevent generic summaries that lack investment-relevant data.\n\n2. **Included concrete technical depth requirements for Product & Technology** - Added specific examples of good vs. bad descriptions and mandated performance benchmarks, API specs, and architecture details to prevent high-level generic content.\n\n3. **Made pricing and unit economics mandatory for Business Model** - Required specific pricing tiers, CAC, LTV, and revenue breakdown with explicit instruction to state unavailability rather than omit, addressing the most problematic section.\n\n4. **Added funding stage verification to prevent classification errors** - Included specific instruction to cross-reference funding claims to avoid misclassifying mature companies as seed-stage.\n\n5. **Implemented quality checkpoints and sourcing requirements** - Added measurable quality checks for each section and required sourcing of quantitative claims to ensure data-backed analysis.\n\n6. **Enhanced competitive analysis with specific comparison metrics** - Required head-to-head win/loss rates and customer switching patterns to move beyond generic competitor lists.\n\n7. **Added good vs. bad examples for weakest sections** - Provided concrete examples showing the difference between generic and specific content for Product & Technology and Business Model sections.",
+  "expected_impact": "These improvements should increase memo quality from 4.5/10 to 7-8/10 by ensuring each memo contains actionable, data-driven insights rather than generic research content. The mandatory requirements and quality checkpoints will prevent the most common failures (missing financial data, generic technical descriptions, absent pricing information), while the sourcing requirements will increase credibility and usefulness for investment decision-making. The specific examples will guide the AI toward producing investment-grade analysis that VCs can actually use for deal evaluation."
+}

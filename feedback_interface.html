@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal Memo Feedback Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .memo-panel {
+            padding: 40px;
+            border-right: 2px solid #e0e0e0;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .feedback-panel {
+            padding: 40px;
+            background: #f8f9fa;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .file-loader {
+            background: #f0f4ff;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .file-loader input {
+            display: none;
+        }
+
+        .file-loader button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-loader button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .memo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #ccc;
+            background: white;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .memo-section:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateX(4px);
+        }
+
+        .memo-section.selected {
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            border-left-color: #667eea;
+            border-left-width: 6px;
+        }
+
+        .memo-section.score-high {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .memo-section.score-medium {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .memo-section.score-low {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .section-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .score-badge {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .score-badge.high {
+            background: #10b981;
+        }
+
+        .score-badge.medium {
+            background: #f59e0b;
+        }
+
+        .score-badge.low {
+            background: #ef4444;
+        }
+
+        .section-content {
+            color: #4b5563;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .quality-issues {
+            background: #fef2f2;
+            border-left: 3px solid #ef4444;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+
+        .quality-issues h4 {
+            color: #dc2626;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .quality-issues ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .quality-issues li {
+            color: #991b1b;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+        }
+
+        .quality-issues li:before {
+            content: "⚠ ";
+            margin-right: 5px;
+        }
+
+        .feedback-form {
+            position: sticky;
+            top: 20px;
+        }
+
+        .feedback-form h3 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        .rating-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating-section h4 {
+            color: #4b5563;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .rating-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rating-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .rating-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating-btn.good {
+            border-color: #10b981;
+        }
+
+        .rating-btn.good:hover,
+        .rating-btn.good.active {
+            background: #10b981;
+            color: white;
+        }
+
+        .rating-btn.needs-work {
+            border-color: #f59e0b;
+        }
+
+        .rating-btn.needs-work:hover,
+        .rating-btn.needs-work.active {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .rating-btn.wrong {
+            border-color: #ef4444;
+        }
+
+        .rating-btn.wrong:hover,
+        .rating-btn.wrong.active {
+            background: #ef4444;
+            color: white;
+        }
+
+        .correction-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95em;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .correction-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-feedback {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-feedback:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-feedback:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-summary h4 {
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .feedback-count {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .feedback-count:last-child {
+            border-bottom: none;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 12px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .no-selection {
+            text-align: center;
+            color: #9ca3af;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Deal Memo Feedback Interface</h1>
+            <p>Review, rate, and provide feedback on AI-generated investment memos</p>
+        </div>
+
+        <div class="main-content">
+            <div class="memo-panel">
+                <div class="file-loader">
+                    <h3>Load Deal Memo & Quality Report</h3>
+                    <p style="margin: 15px 0; color: #6b7280;">Select the quality JSON file to load the memo</p>
+                    <button onclick="document.getElementById('fileInput').click()">
+                        📂 Choose Quality Report JSON
+                    </button>
+                    <input type="file" id="fileInput" accept=".json" onchange="loadFiles(event)">
+                </div>
+
+                <div id="memoContent">
+                    <div class="no-selection">
+                        <h3>👈 Load a quality report to begin</h3>
+                        <p style="margin-top: 10px;">The memo content will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-panel">
+                <div class="feedback-form">
+                    <h3>Feedback Form</h3>
+
+                    <div id="ratingSection" style="display: none;">
+                        <div class="rating-section">
+                            <h4 id="selectedSectionName">Select a section</h4>
+
+                            <div class="rating-buttons">
+                                <button class="rating-btn good" onclick="setRating('good')">
+                                    ✅ Good
+                                </button>
+                                <button class="rating-btn needs-work" onclick="setRating('needs-work')">
+                                    ⚠️ Needs Work
+                                </button>
+                                <button class="rating-btn wrong" onclick="setRating('wrong')">
+                                    ❌ Wrong
+                                </button>
+                            </div>
+
+                            <label style="display: block; margin-bottom: 8px; color: #4b5563; font-weight: 500;">
+                                Corrections / Comments:
+                            </label>
+                            <textarea
+                                id="correctionText"
+                                class="correction-input"
+                                placeholder="What needs to be improved? What's wrong? Add your feedback here..."
+                            ></textarea>
+                        </div>
+
+                        <button class="submit-feedback" onclick="submitFeedback()">
+                            💾 Save Feedback
+                        </button>
+
+                        <div id="successMessage" class="success-message">
+                            ✅ Feedback saved successfully!
+                        </div>
+                    </div>
+
+                    <div class="feedback-summary">
+                        <h4>Feedback Progress</h4>
+                        <div class="feedback-count">
+                            <span>Sections reviewed:</span>
+                            <strong id="reviewedCount">0 / 0</strong>
+                        </div>
+                        <div class="feedback-count">
+                            <span>✅ Good:</span>
+                            <strong id="goodCount">0</strong>
+                        </div>
+                        <div class="feedback-count">
+                            <span>⚠️ Needs Work:</span>
+                            <strong id="needsWorkCount">0</strong>
+                        </div>
+                        <div class="feedback-count">
+                            <span>❌ Wrong:</span>
+                            <strong id="wrongCount">0</strong>
+                        </div>
+
+                        <button class="export-btn" onclick="exportFeedback()">
+                            📥 Export Feedback JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let qualityReport = null;
+        let memoSections = [];
+        let feedback = {};
+        let selectedSection = null;
+
+        function loadFiles(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    qualityReport = JSON.parse(e.target.result);
+                    parseMemoSections();
+                    renderMemo();
+                    document.getElementById('ratingSection').style.display = 'block';
+                } catch (error) {
+                    alert('Error loading file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function parseMemoSections() {
+            memoSections = [];
+            const scores = qualityReport.section_scores;
+
+            for (const [key, value] of Object.entries(scores)) {
+                memoSections.push({
+                    id: key,
+                    title: key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                    score: value.score,
+                    completeness: value.completeness,
+                    issues: value.issues || [],
+                    strengths: value.strengths || []
+                });
+            }
+        }
+
+        function renderMemo() {
+            const memoContent = document.getElementById('memoContent');
+            memoContent.innerHTML = '';
+
+            memoSections.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'memo-section';
+                sectionDiv.id = `section-${section.id}`;
+
+                // Add score-based styling
+                if (section.score >= 7) {
+                    sectionDiv.classList.add('score-high');
+                } else if (section.score >= 5) {
+                    sectionDiv.classList.add('score-medium');
+                } else {
+                    sectionDiv.classList.add('score-low');
+                }
+
+                const scoreClass = section.score >= 7 ? 'high' : section.score >= 5 ? 'medium' : 'low';
+
+                sectionDiv.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-title">${section.title}</div>
+                        <div class="section-score">
+                            <span class="score-badge ${scoreClass}">${section.score}/10</span>
+                            <span style="color: #6b7280; font-size: 0.9em;">${section.completeness}</span>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <strong>Strengths:</strong>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            ${section.strengths.map(s => `<li>${s}</li>`).join('') || '<li style="color: #9ca3af;">None identified</li>'}
+                        </ul>
+                    </div>
+                    ${section.issues.length > 0 ? `
+                    <div class="quality-issues">
+                        <h4>Issues Identified:</h4>
+                        <ul>
+                            ${section.issues.map(issue => `<li>${issue}</li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+                `;
+
+                sectionDiv.onclick = () => selectSection(section.id);
+                memoContent.appendChild(sectionDiv);
+            });
+
+            updateFeedbackSummary();
+        }
+
+        function selectSection(sectionId) {
+            // Remove previous selection
+            document.querySelectorAll('.memo-section').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Mark new selection
+            const sectionEl = document.getElementById(`section-${sectionId}`);
+            sectionEl.classList.add('selected');
+            sectionEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Update form
+            selectedSection = sectionId;
+            const section = memoSections.find(s => s.id === sectionId);
+            document.getElementById('selectedSectionName').textContent = section.title;
+
+            // Load existing feedback if any
+            if (feedback[sectionId]) {
+                const existingFeedback = feedback[sectionId];
+                setRating(existingFeedback.rating, false);
+                document.getElementById('correctionText').value = existingFeedback.correction || '';
+            } else {
+                clearRatingButtons();
+                document.getElementById('correctionText').value = '';
+            }
+        }
+
+        function setRating(rating, scroll = true) {
+            // Clear all active states
+            clearRatingButtons();
+
+            // Set active state
+            const btn = document.querySelector(`.rating-btn.${rating}`);
+            if (btn) {
+                btn.classList.add('active');
+            }
+
+            // Store in temporary state
+            if (!feedback[selectedSection]) {
+                feedback[selectedSection] = {};
+            }
+            feedback[selectedSection].rating = rating;
+        }
+
+        function clearRatingButtons() {
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        function submitFeedback() {
+            if (!selectedSection) {
+                alert('Please select a section first');
+                return;
+            }
+
+            if (!feedback[selectedSection] || !feedback[selectedSection].rating) {
+                alert('Please select a rating');
+                return;
+            }
+
+            // Save correction text
+            const correction = document.getElementById('correctionText').value;
+            feedback[selectedSection].correction = correction;
+            feedback[selectedSection].timestamp = new Date().toISOString();
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 2000);
+
+            // Update summary
+            updateFeedbackSummary();
+
+            // Auto-select next section
+            const currentIndex = memoSections.findIndex(s => s.id === selectedSection);
+            if (currentIndex < memoSections.length - 1) {
+                setTimeout(() => {
+                    selectSection(memoSections[currentIndex + 1].id);
+                }, 500);
+            }
+        }
+
+        function updateFeedbackSummary() {
+            const totalSections = memoSections.length;
+            const reviewedSections = Object.keys(feedback).length;
+
+            let goodCount = 0;
+            let needsWorkCount = 0;
+            let wrongCount = 0;
+
+            Object.values(feedback).forEach(f => {
+                if (f.rating === 'good') goodCount++;
+                else if (f.rating === 'needs-work') needsWorkCount++;
+                else if (f.rating === 'wrong') wrongCount++;
+            });
+
+            document.getElementById('reviewedCount').textContent = `${reviewedSections} / ${totalSections}`;
+            document.getElementById('goodCount').textContent = goodCount;
+            document.getElementById('needsWorkCount').textContent = needsWorkCount;
+            document.getElementById('wrongCount').textContent = wrongCount;
+        }
+
+        function exportFeedback() {
+            if (Object.keys(feedback).length === 0) {
+                alert('No feedback to export yet!');
+                return;
+            }
+
+            const exportData = {
+                memo_metadata: qualityReport.metadata,
+                overall_quality_score: qualityReport.overall_score,
+                feedback_summary: {
+                    total_sections: memoSections.length,
+                    reviewed_sections: Object.keys(feedback).length,
+                    good: Object.values(feedback).filter(f => f.rating === 'good').length,
+                    needs_work: Object.values(feedback).filter(f => f.rating === 'needs-work').length,
+                    wrong: Object.values(feedback).filter(f => f.rating === 'wrong').length
+                },
+                section_feedback: feedback,
+                exported_at: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `feedback_${qualityReport.metadata.memo_file.replace('.md', '')}_${Date.now()}.json`;
+            link.click();
+
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

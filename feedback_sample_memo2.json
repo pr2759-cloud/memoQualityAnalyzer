@@ -1,0 +1,58 @@
+{
+  "memo_metadata": {
+    "analyzed_at": "2025-11-19T10:30:00.000000",
+    "memo_file": "deal_memo_another_company.md",
+    "analyzer_version": "1.0"
+  },
+  "overall_quality_score": 5,
+  "feedback_summary": {
+    "total_sections": 8,
+    "reviewed_sections": 8,
+    "good": 3,
+    "needs_work": 3,
+    "wrong": 2
+  },
+  "section_feedback": {
+    "executive_summary": {
+      "rating": "needs-work",
+      "correction": "Again missing financial metrics and investment terms. Pattern emerging - need to mandate these fields.",
+      "timestamp": "2025-11-19T10:35:00.000Z"
+    },
+    "company_overview": {
+      "rating": "good",
+      "correction": "Much better - has customer count, growth rate, and current stage clearly stated.",
+      "timestamp": "2025-11-19T10:36:00.000Z"
+    },
+    "market_analysis": {
+      "rating": "good",
+      "correction": "Well sourced with specific citations. This is how it should be done.",
+      "timestamp": "2025-11-19T10:37:00.000Z"
+    },
+    "product_technology": {
+      "rating": "needs-work",
+      "correction": "Generic descriptions without technical depth. Need architecture details, performance metrics, and API specifics.",
+      "timestamp": "2025-11-19T10:38:00.000Z"
+    },
+    "business_model": {
+      "rating": "wrong",
+      "correction": "No pricing, no unit economics, no CAC/LTV. Same issue as other memo - this is critical information!",
+      "timestamp": "2025-11-19T10:39:00.000Z"
+    },
+    "competitive_landscape": {
+      "rating": "good",
+      "correction": "Good analysis with specific competitive advantages backed by data.",
+      "timestamp": "2025-11-19T10:40:00.000Z"
+    },
+    "risks_considerations": {
+      "rating": "needs-work",
+      "correction": "Risks are too generic. Need company-specific risks with probability assessments.",
+      "timestamp": "2025-11-19T10:41:00.000Z"
+    },
+    "investment_thesis": {
+      "rating": "wrong",
+      "correction": "No clear recommendation, no valuation work, no discussion of terms. Reads like an essay, not an investment decision document.",
+      "timestamp": "2025-11-19T10:42:00.000Z"
+    }
+  },
+  "exported_at": "2025-11-19T10:43:00.000Z"
+}
